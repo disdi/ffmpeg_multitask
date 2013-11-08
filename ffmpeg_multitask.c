@@ -44,13 +44,12 @@ main(int argc, char *argv[])
         /* And then signals parent that it's done */
 
         printf("Child about to signal parent\n");
-                //currTime("%T"), (long) getpid());
+                
         if (kill(getppid(), SYNC_SIG) == -1)
-             printf("kill failed\n");
+             printf("signal sending failed\n");
         else 
-	     printf("Child killed\n");
-        /* Now child can do other things... */
-
+	     printf("signal sent\n");
+        
         _exit(EXIT_SUCCESS);
 
     default: /* Parent */
@@ -59,11 +58,11 @@ main(int argc, char *argv[])
            complete the required action */
 
         printf("Parent about to wait for signal\n");
-                //currTime("%T"), (long) getpid());
+                
         sigemptyset(&emptyMask);
         if (sigsuspend(&emptyMask) == -1 && errno != EINTR)
              printf("sigsuspend failed\n");
-        printf("Parent got signal- recording from webcam\n"); //currTime("%T"), (long) getpid());
+        printf("Parent got signal- recording from webcam\n"); 
         
         /* If required, return signal mask to its original state */
         system("ffmpeg -f video4linux2 -r 25 -i /dev/video1 -map 0:v:0 -vcodec mpeg4 -y webcam8.mp4 -t 10"); 
