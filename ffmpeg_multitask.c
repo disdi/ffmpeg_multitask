@@ -9,6 +9,8 @@
 static void             /* Signal handler - does nothing but return */
 handler(int sig)
 {
+ printf("SIGNAL received\n");
+ printf("Both videos recorded\n");
 }
 
 int
@@ -20,16 +22,12 @@ main(int argc, char *argv[])
 
     setbuf(stdout, NULL);               /* Disable buffering of stdout */
 
+    signal(SIGUSR1, &handler);
+
     sigemptyset(&blockMask);
     sigaddset(&blockMask, SYNC_SIG);    /* Block signal */
     if (sigprocmask(SIG_BLOCK, &blockMask, &origMask) == -1)
          printf("sigprocmask failed\n");
-
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sa.sa_handler = handler;
-    if (sigaction(SYNC_SIG, &sa, NULL) == -1)
-         printf("sigaction failed\n");
 
     switch (childPid = fork()) {
     case -1:
@@ -59,19 +57,21 @@ main(int argc, char *argv[])
 
         printf("Parent about to wait for signal\n");
                 
-        sigemptyset(&emptyMask);
-        if (sigsuspend(&emptyMask) == -1 && errno != EINTR)
-             printf("sigsuspend failed\n");
-        printf("Parent got signal- recording from webcam\n"); 
+        int sig;
+	int result = sigwait(&blockMask, &sig);
+        if(!result)
+            printf("Parent got signal- recording from webcam\n"); 
         
         /* If required, return signal mask to its original state */
-        system("ffmpeg -f video4linux2 -r 25 -i /dev/video1 -map 0:v:0 -vcodec mpeg4 -y webcam8.mp4 -t 10"); 
-        if (sigprocmask(SIG_SETMASK, &origMask, NULL) == -1)
+        system("ffmpeg -f video4linux2 -r 25 -i /dev/video0 -map 0:v:0 -vcodec mpeg4 -y webcam8.mp4 -t 10"); 
+        
+	if (sigprocmask(SIG_SETMASK, &origMask, NULL) == -1)
              printf("sigprocmask failed\n");
+        printf("signal unblocked\n");
 
+	raise(SIGUSR1);
         /* Parent carries on to do other things... */
-	printf("Both videos recorded\n");	
-        exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
     }
 }
 
