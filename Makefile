@@ -1,7 +1,7 @@
 CC = gcc
 AR = ar
 CFLAGS = -g
-LFLAGS = -lavformat -lavcodec -lavutil
+LFLAGS = -lffmpeg
 
 TGT = ffmpeg_multitask
 
