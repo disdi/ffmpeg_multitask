@@ -22,6 +22,8 @@ main(int argc, char *argv[])
 
     setbuf(stdout, NULL);               /* Disable buffering of stdout */
 
+    av_register_all(); //ffmpeg library functions
+
     signal(SIGUSR1, &handler);
 
     sigemptyset(&blockMask);
