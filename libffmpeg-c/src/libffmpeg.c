@@ -6,4 +6,7 @@
 #include <unistd.h>
 
 //ffmpeg based functionality
-
+void FFMpeg_init()
+{
+    av_register_all();
+}

@@ -24,7 +24,7 @@ ALL: libffmpeg.so
 
 libffmpeg.so: $(INCLUDES) $(SOURCES)
 	$(CC) $(INCLUDES) $(SOURCES) \
-	-D__STDC_CONSTANT_MACROS -I./deps/ffmpeg -shared $(LIBS) -g \
+	-shared $(LIBS) -g \
 	-o libffmpeg.so
 	
 clean:
