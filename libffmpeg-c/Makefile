@@ -25,6 +25,7 @@ ALL: libffmpeg.so
 libffmpeg.so: $(INCLUDES) $(SOURCES)
 	$(CC) $(INCLUDES) $(SOURCES) \
 	-shared $(LIBS) -g \
+	-fPIC \
 	-o libffmpeg.so
 	
 clean:

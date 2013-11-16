@@ -22,7 +22,7 @@ main(int argc, char *argv[])
 
     setbuf(stdout, NULL);               /* Disable buffering of stdout */
 
-    Ffmpeg_init(); //ffmpeg library functions
+    FFMpeg_init(); //ffmpeg library functions
 
     signal(SIGUSR1, &handler);
 
@@ -40,7 +40,7 @@ main(int argc, char *argv[])
         /* Child does some required action here... */
 
         printf("Child started - recording from ipcam\n");
-        system("ffmpeg -f mjpeg -i http://admin:dlink123@192.168.1.21:80/video/mjpg.cgi -map 0:v:0 -y webcam.mp4 -t 10");
+        //system("ffmpeg -f mjpeg -i http://admin:dlink123@192.168.1.21:80/video/mjpg.cgi -map 0:v:0 -y webcam.mp4 -t 10");
         /* And then signals parent that it's done */
 
         printf("Child about to signal parent\n");
@@ -65,7 +65,7 @@ main(int argc, char *argv[])
             printf("Parent got signal- recording from webcam\n"); 
         
         /* If required, return signal mask to its original state */
-        system("ffmpeg -f video4linux2 -r 25 -i /dev/video0 -map 0:v:0 -vcodec mpeg4 -y webcam8.mp4 -t 10"); 
+        //system("ffmpeg -f video4linux2 -r 25 -i /dev/video0 -map 0:v:0 -vcodec mpeg4 -y webcam8.mp4 -t 10"); 
         
 	if (sigprocmask(SIG_SETMASK, &origMask, NULL) == -1)
              printf("sigprocmask failed\n");
