@@ -24,6 +24,7 @@ ALL: libffmpeg.so
 
 libffmpeg.so: $(INCLUDES) $(SOURCES)
 	$(CC) $(INCLUDES) $(SOURCES) \
+	-I./deps/ffmpeg \
 	-shared $(LIBS) -g \
 	-fPIC \
 	-o libffmpeg.so
