@@ -2,6 +2,9 @@ CC = gcc
 AR = ar
 CFLAGS = -g
 LFLAGS = -lffmpeg
+INCLUDE = -L/home/aetelelink/ffmpeg_multitask/libffmpeg-c/ffmpeg
+RLINK_PATH = /home/aetelelink/ffmpeg_multitask/libffmpeg-c/lib/	
+LDFLAGS = -Wl,-rpath-link,$(RLINK_PATH)
 
 TGT = ffmpeg_multitask
 
@@ -17,7 +20,7 @@ build = \
 	fi
 
 % : %.o
-	$(call build,LINK,$(CC) $(CFLAGS) $(OBJS)  -o $@ $(LFLAGS))
+	$(call build,LINK,$(CC) $(CFLAGS) $(INCLUDE) $(LDFLAGS) $(OBJS)  -o $@ $(LFLAGS))
 
 %.o : %.c 
 	$(call build,CC,$(CC) $(CFLAGS) -c $< -o $@)

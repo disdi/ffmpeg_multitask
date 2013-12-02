@@ -12,19 +12,17 @@ LIBS_OLD= 		-lavcodec -lavformat -lavdevice \
 			-lavutil -lswscale -lpostproc \
 			-lavfilter -Llibpostproc
 
-LIBS= 		/usr/local/lib/libavcodec.so.53 \
-		/usr/local/lib/libavformat.so.53 \
-		/usr/local/lib/libavdevice.so.53 \
-		/usr/local/lib/libavutil.so.51 \
-		/usr/local/lib/libswscale.so.2 \
-		/usr/local/lib/libpostproc.so.51 \
-		/usr/local/lib/libavfilter.so.2
+LIBS= 		/home/aetelelink/ffmpeg_multitask/libffmpeg-c/lib/libavcodec.so \
+		/home/aetelelink/ffmpeg_multitask/libffmpeg-c/lib/libavformat.so \
+		/home/aetelelink/ffmpeg_multitask/libffmpeg-c/lib/libavdevice.so \
+		/home/aetelelink/ffmpeg_multitask/libffmpeg-c/lib/libavutil.so \
+		/home/aetelelink/ffmpeg_multitask/libffmpeg-c/lib/libswscale.so \
+		/home/aetelelink/ffmpeg_multitask/libffmpeg-c/lib/libavfilter.so
 
 ALL: libffmpeg.so
 
 libffmpeg.so: $(INCLUDES) $(SOURCES)
 	$(CC) $(INCLUDES) $(SOURCES) \
-	-I./deps/ffmpeg \
 	-shared $(LIBS) -g \
 	-fPIC \
 	-o libffmpeg.so
