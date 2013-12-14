@@ -2,10 +2,10 @@ CC=gcc
 HEADES_DIR= /usr/local/include/libffmpeg
 LIB_DIR= /usr/local/lib
 
-INCLUDES=	include/libffmpeg.h
+INCLUDES=	include/libffmpeg.h include/cmdutils.h
 			 
 			
-SOURCES=	src/libffmpeg.c 
+SOURCES=	src/libffmpeg.c src/cmdutils.c
 			
 			
 LIBS_OLD= 		-lavcodec -lavformat -lavdevice \
